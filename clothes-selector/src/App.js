@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ClothesList from './ClothesList';
 import AddCloth from './AddCloth';
 
@@ -7,8 +7,10 @@ function App() {
   return (
     <Router>
       <div>
-        <Route path="/aaa" exact component={ClothesList} />
-        <Route path="/addaaa" component={AddCloth} />
+        <Routes>
+          <Route path="/" element={<ClothesList />} />
+          <Route path="/add" element={<AddCloth />} />
+        </Routes>
       </div>
     </Router>
   );

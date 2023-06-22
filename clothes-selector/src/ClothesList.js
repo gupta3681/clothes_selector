@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { db } from './firebase';
+import { Link } from 'react-router-dom';
+
+import './ClothesList.css';
+
 
 function ClothesList() {
   const [clothes, setClothes] = useState([]);
@@ -15,15 +19,30 @@ function ClothesList() {
     fetchData();
   }, []);
 
+  const deleteCloth = async (id) => {
+    const clothRef = doc(db, 'clothes', id);
+    await deleteDoc(clothRef);
+
+    // Remove the cloth from local state
+    setClothes(clothes.filter(cloth => cloth.id !== id));
+  };
+
   return (
     <div>
-      <h2>Clothes</h2>
+      <h2 className='heading'>Clothes</h2>
+      <Link to="/add">
+        <button>Add Clothes</button>
+      </Link>
+      <div className='clothes-container'>
       {clothes.map((cloth) => 
-        <div key={cloth.id}>
+        <div className='cloth-card' key={cloth.id}>
           <img src={cloth.imageURL} alt={cloth.description} />
           <p>{cloth.description}</p>
+          <button onClick={() => deleteCloth(cloth.id)}>Delete</button>
         </div>
       )}
+      </div>
+      
     </div>
   )
 }

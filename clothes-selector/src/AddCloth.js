@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from './firebase';
+import { Link } from 'react-router-dom';
 
 function AddCloth() {
   const [imageURL, setImageURL] = useState('');
@@ -30,6 +31,9 @@ function AddCloth() {
         <textarea value={description} onChange={e => setDescription(e.currentTarget.value)} />
       </div>
       <button>Add</button>
+      <Link to="/add">
+        <button>Clothes List</button>
+      </Link>
     </form>
   )
 }
