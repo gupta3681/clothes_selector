@@ -3,7 +3,7 @@ import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button, Card, CardActions, CardContent, CardMedia, Container, Typography } from '@mui/material';
-
+import { Box } from '@mui/system';
 function ClothesList() {
   const [clothes, setClothes] = useState([]);
 
@@ -29,17 +29,24 @@ function ClothesList() {
     <Container>
       <Typography variant="h2" align="center" gutterBottom>Clothes</Typography>
       <Button component={RouterLink} to="/add" variant="contained" color="primary">Add Clothes</Button>
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', marginTop: '1em' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', marginTop: '1em' }}>
         {clothes.map((cloth) =>
-          <Card key={cloth.id} style={{ maxWidth: 345, margin: '1em' }}>
+          <Box key={cloth.id} sx={{ width: '200px', margin: '1em' }}>
+            <Card>
             <CardMedia
               component="img"
               height="140"
               image={cloth.imageURL}
               alt={cloth.description}
             />
-            <CardContent>
+            <CardContent  style={{ height: 100, overflow: 'auto' }}>
+            <Typography variant="body1" color="text.secondary"fontWeight="bold">
+                {cloth.company}
+              </Typography>
               <Typography variant="body2" color="text.secondary">
+                {cloth.type}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" fontStyle="italic">
                 {cloth.description}
               </Typography>
             </CardContent>
@@ -47,6 +54,7 @@ function ClothesList() {
               <Button size="small" color="secondary" onClick={() => deleteCloth(cloth.id)}>Delete</Button>
             </CardActions>
           </Card>
+          </Box>
         )}
       </div>
     </Container>
