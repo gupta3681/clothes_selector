@@ -100,31 +100,18 @@ function Auth() {
             color="primary"
             type="submit"
             disabled={loading}
-            fullWidth
           >
-            {loading ? <CircularProgress size={24} /> : "Submit"}
-          </Button>
-        </Box>
-        <Box mt={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleGoogleSignIn}
-            disabled={loading}
-            fullWidth
-          >
-            {loading ? <CircularProgress size={24} /> : "Sign in with Google"}
+            {loading ? <CircularProgress size={24} /> : "Login or Register"}
           </Button>
         </Box>
         <Box mt={2}>
           <Button
             variant="contained"
             color="secondary"
-            component={RouterLink}
-            to="/"
-            fullWidth
+            onClick={handleGoogleSignIn}
+            disabled={loading}
           >
-            Go Back
+            {loading ? <CircularProgress size={24} /> : "Sign in with Google"}
           </Button>
         </Box>
       </form>
