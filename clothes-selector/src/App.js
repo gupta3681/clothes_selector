@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ClothesList from './ClothesList';
-import AddCloth from './AddCloth';
+import ClothesList from '../src/pages/ClothesList';
+import AddCloth from '../src/pages/AddCloth'
 
 function App() {
   return (
