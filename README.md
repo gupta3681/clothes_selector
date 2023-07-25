@@ -1,13 +1,13 @@
 # clothes_selector
-**Currently in Version 1.1 **
+**Currently in Version 1.12 **
 
 Current functionalities: 
 1. Add and deletes clothes
 2. Storage of added clothes in firestore
+3. User authentication and personalised closet
 
-**Upcoming V 1.12**
+**Upcoming V 1.13**
 
-1. User authentication and personalised closet
-2. Better UI and mobile friendly
-3. Mix and Match Page without ML
-4. In house Image classifier to detect type of cloth
+1. Better UI and mobile friendly
+2. Mix and Match Page without ML
+3. In house Image classifier to detect type of cloth
