@@ -14,8 +14,10 @@ import {
   Snackbar,
   TextField,
   Typography,
+  Stack,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import SignOutButton from "../components/SignOutButton";
 
 function AddClothes() {
   const [description, setDescription] = useState("");
@@ -79,9 +81,18 @@ function AddClothes() {
 
   return (
     <Container>
-      <Typography variant="h2" align="center" gutterBottom>
-        Add Clothes
-      </Typography>
+      <Stack
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        flexDirection={"row"}
+      >
+        <Typography variant="h2" align="center" gutterBottom>
+          Add Clothes
+        </Typography>
+        <SignOutButton />
+      </Stack>
+
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           label="Company"

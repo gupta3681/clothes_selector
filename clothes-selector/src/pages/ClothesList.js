@@ -18,8 +18,11 @@ import {
   CardMedia,
   Container,
   Typography,
+  Stack,
+  Box,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import SignOutButton from "../components/SignOutButton";
+
 function ClothesList() {
   const [clothes, setClothes] = useState([]);
   const auth = getAuth();
@@ -58,9 +61,17 @@ function ClothesList() {
 
   return (
     <Container>
-      <Typography variant="h2" align="center" gutterBottom>
-        Clothes
-      </Typography>
+      <Stack
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        flexDirection={"row"}
+      >
+        <Typography variant="h2" align="center" gutterBottom>
+          Clothes
+        </Typography>
+        <SignOutButton />
+      </Stack>
       <Button
         component={RouterLink}
         to="/add-clothes"
