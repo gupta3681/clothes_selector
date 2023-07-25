@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import {
+  getDocs,
+  query,
+  where,
+  collection,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { Link as RouterLink } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   Button,
   Card,
@@ -14,20 +22,32 @@ import {
 import { Box } from "@mui/system";
 function ClothesList() {
   const [clothes, setClothes] = useState([]);
+  const auth = getAuth();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const clothesCollection = collection(db, "clothes");
-      const clothesSnapshot = await getDocs(clothesCollection);
-      const clothesList = clothesSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setClothes(clothesList);
-    };
-    fetchData();
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const currentUserId = user.uid;
+        // Query clothes collection where the ownerId is equal to the current user's ID
+        const clothesCollection = collection(db, "clothes");
+        const clothesQuery = query(
+          clothesCollection,
+          where("ownerId", "==", currentUserId)
+        );
+        const fetchClothes = async () => {
+          const clothesSnapshot = await getDocs(clothesQuery);
+          const clothesList = clothesSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setClothes(clothesList);
+        };
+        fetchClothes();
+      }
+    });
 
+    return () => unsubscribe();
+  }, [auth]);
   const deleteCloth = async (id) => {
     const clothRef = doc(db, "clothes", id);
     await deleteDoc(clothRef);
@@ -43,7 +63,7 @@ function ClothesList() {
       </Typography>
       <Button
         component={RouterLink}
-        to="/add"
+        to="/add-clothes"
         variant="contained"
         color="primary"
       >

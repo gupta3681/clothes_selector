@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { Link as RouterLink } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   Alert,
   Button,
@@ -25,14 +26,30 @@ function AddClothes() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const clothTypes = ["T-Shirt", "Jeans", "Jacket", "Sweater", "Shorts"];
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUserId(user.uid);
+      } else {
+        setCurrentUserId(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const addCloth = async () => {
+    const auth = getAuth();
     setLoading(true);
     const newCloth = {
       description,
       imageURL,
       company,
       type,
+      ownerId: currentUserId,
     };
 
     try {
@@ -121,7 +138,7 @@ function AddClothes() {
           variant="contained"
           color="secondary"
           component={RouterLink}
-          to="/"
+          to="/clothes-list"
         >
           Clothes List
         </Button>
