@@ -125,7 +125,7 @@ function Auth() {
             severity="success"
             sx={{ width: "100%" }}
           >
-            {error ? "Error occurred." : "Successfully registered / logged in!"}
+            {error ? "Error occurred." : "Welcome !"}
           </Alert>
         </Snackbar>
       )}

@@ -12,20 +12,37 @@ import { Link as RouterLink } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
   Container,
   Typography,
   Stack,
-  Box,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import SignOutButton from "../components/SignOutButton";
+import Weather from "../components/Weather";
+import CardMedia from "@mui/material/CardMedia";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Box from "@mui/material/Box";
 
 function ClothesList() {
   const [clothes, setClothes] = useState([]);
   const auth = getAuth();
+  const [isImageOpen, setIsImageOpen] = useState(false);
+  const [enlargedImage, setEnlargedImage] = useState("");
+  const handleImageClick = (imageURL) => {
+    setIsImageOpen(true);
+    setEnlargedImage(imageURL);
+  };
+  const handleCloseImage = () => {
+    setIsImageOpen(false);
+    setEnlargedImage("");
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -58,6 +75,40 @@ function ClothesList() {
     // Remove the cloth from local state
     setClothes(clothes.filter((cloth) => cloth.id !== id));
   };
+  const columns = [
+    { field: "company", headerName: "Company", flex: 1 },
+    { field: "type", headerName: "Type", flex: 1 },
+    { field: "description", headerName: "Description", flex: 1 },
+    {
+      field: "imageURL",
+      headerName: "Image",
+      flex: 1,
+      renderCell: (params) => (
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => handleImageClick(params.value)}
+        >
+          View Image
+        </Button>
+      ),
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 1,
+      renderCell: (params) => (
+        // Custom renderCell to show the delete button
+        <Button
+          size="small"
+          color="secondary"
+          onClick={() => deleteCloth(params.id)}
+        >
+          Delete
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <Container>
@@ -65,70 +116,47 @@ function ClothesList() {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        flexDirection={"row"}
+        flexDirection="row"
+        sx={{ marginBottom: "1em" }}
       >
         <Typography variant="h2" align="center" gutterBottom>
-          Clothes
+          ClosetMate
         </Typography>
-        <SignOutButton />
+        <Stack direction="row" spacing={2}>
+          <Button
+            component={RouterLink}
+            to="/add-clothes"
+            variant="contained"
+            color="secondary"
+            size="small"
+          >
+            Add Clothes
+          </Button>
+          <SignOutButton />
+        </Stack>
       </Stack>
-      <Button
-        component={RouterLink}
-        to="/add-clothes"
-        variant="contained"
-        color="primary"
-      >
-        Add Clothes
-      </Button>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "flex-start",
-          marginTop: "1em",
-        }}
-      >
-        {clothes.map((cloth) => (
-          <Box key={cloth.id} sx={{ width: "200px", margin: "1em" }}>
+      <Typography variant="body1" align="left" paddingBottom={2}>
+        Hey there! Welcome to your virtual closet !
+      </Typography>
+      <Weather />
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid rows={clothes} columns={columns} />
+      </div>
+      {/* Image modal */}
+      <Dialog open={isImageOpen} onClose={handleCloseImage}>
+        <DialogTitle>Enlarged Image</DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Card>
-              <CardMedia
-                component="img"
-                height="140"
-                image={cloth.imageURL}
-                alt={cloth.description}
-              />
-              <CardContent style={{ height: 100, overflow: "auto" }}>
-                <Typography
-                  variant="body1"
-                  color="text.secondary"
-                  fontWeight="bold"
-                >
-                  {cloth.company}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {cloth.type}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  fontStyle="italic"
-                >
-                  {cloth.description}
-                </Typography>
-              </CardContent>
+              <CardMedia component="img" height="400" image={enlargedImage} />
+              <CardContent></CardContent>
               <CardActions>
-                <Button
-                  size="small"
-                  color="secondary"
-                  onClick={() => deleteCloth(cloth.id)}
-                >
-                  Delete
-                </Button>
+                <Button onClick={handleCloseImage}>Close</Button>
               </CardActions>
             </Card>
           </Box>
-        ))}
-      </div>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 }

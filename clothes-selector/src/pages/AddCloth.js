@@ -26,6 +26,7 @@ function AddClothes() {
   const [type, setType] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   const clothTypes = ["T-Shirt", "Jeans", "Jacket", "Sweater", "Shorts"];
   const [currentUserId, setCurrentUserId] = useState(null);
@@ -76,6 +77,10 @@ function AddClothes() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (company === "" || type === "" || description === "") {
+      setError("Please fill in all required fields.");
+      return;
+    }
     addCloth();
   };
 
@@ -139,7 +144,7 @@ function AddClothes() {
         <Button
           variant="contained"
           color="primary"
-          onClick={addCloth}
+          onClick={handleSubmit}
           disabled={loading}
           style={{ marginRight: "1em" }}
         >
@@ -154,6 +159,7 @@ function AddClothes() {
           Clothes List
         </Button>
       </form>
+
       {isSuccess && (
         <Snackbar
           open={isSuccess}

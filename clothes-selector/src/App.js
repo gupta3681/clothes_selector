@@ -25,30 +25,29 @@ function App() {
   }, [auth]);
 
   if (loading) {
-    return <div>Loading...</div>; // You can display a loader while checking the authentication status.
+    return <div>Loading...</div>;
   }
 
   return (
     <Router>
       <Routes>
-        {/* Route for the login/register page */}
         <Route
           path="/auth"
           element={user ? <Navigate to="/clothes-list" /> : <Auth />}
         />
-        {/* Private route for the clothes list page */}
+
         {user ? (
           <Route path="/clothes-list" element={<ClothesList />} />
         ) : (
           <Route path="/clothes-list" element={<Navigate to="/auth" />} />
         )}
-        {/* Private route for the add clothes page */}
+
         {user ? (
           <Route path="/add-clothes" element={<AddClothes />} />
         ) : (
           <Route path="/add-clothes" element={<Navigate to="/auth" />} />
         )}
-        {/* Redirect to the login/register page for any other route */}
+
         <Route path="*" element={<Navigate to="/auth" />} />
       </Routes>
     </Router>
