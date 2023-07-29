@@ -17,9 +17,7 @@ import {
   Stack,
   Dialog,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  DialogActions,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import SignOutButton from "../components/SignOutButton";
@@ -29,6 +27,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
+import Statistics from "../components/Statistics";
 
 function ClothesList() {
   const [clothes, setClothes] = useState([]);
@@ -120,7 +119,7 @@ function ClothesList() {
         sx={{ marginBottom: "1em" }}
       >
         <Typography variant="h2" align="center" gutterBottom>
-          ClosetMate
+          closetMate
         </Typography>
         <Stack direction="row" spacing={2}>
           <Button
@@ -139,9 +138,10 @@ function ClothesList() {
         Hey there! Welcome to your virtual closet !
       </Typography>
       <Weather />
-      <div style={{ height: 400, width: "100%" }}>
+      <div style={{ height: 400, width: "100%" }} paddingBottom={2}>
         <DataGrid rows={clothes} columns={columns} />
       </div>
+      <Statistics clothes={clothes} />
       {/* Image modal */}
       <Dialog open={isImageOpen} onClose={handleCloseImage}>
         <DialogTitle>Enlarged Image</DialogTitle>

@@ -93,7 +93,7 @@ function AddClothes() {
         flexDirection={"row"}
       >
         <Typography variant="h2" align="center" gutterBottom>
-          Add Clothes
+          Bought a new cloth? add it here!
         </Typography>
         <SignOutButton />
       </Stack>
@@ -139,7 +139,6 @@ function AddClothes() {
           margin="normal"
           value={imageURL}
           onChange={(e) => setImageURL(e.target.value)}
-          required
         />
         <Button
           variant="contained"
