@@ -8,7 +8,6 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import { Link as RouterLink } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   Button,
@@ -17,18 +16,18 @@ import {
   Stack,
   Dialog,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  DialogActions,
+  Divider,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import SignOutButton from "../components/SignOutButton";
 import Weather from "../components/Weather";
 import CardMedia from "@mui/material/CardMedia";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
+import Statistics from "../components/Statistics";
+import { Header } from "../components/Header";
 
 function ClothesList() {
   const [clothes, setClothes] = useState([]);
@@ -112,36 +111,22 @@ function ClothesList() {
 
   return (
     <Container>
+      <Header />
       <Stack
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        flexDirection="row"
-        sx={{ marginBottom: "1em" }}
+        direction="column"
+        divider={<Divider orientation="vertical" flexItem />}
+        spacing={2}
       >
-        <Typography variant="h2" align="center" gutterBottom>
-          ClosetMate
+        <Typography variant="h6" align="left" paddingBottom={2}>
+          Hey there! Welcome to your virtual closet !
         </Typography>
-        <Stack direction="row" spacing={2}>
-          <Button
-            component={RouterLink}
-            to="/add-clothes"
-            variant="contained"
-            color="secondary"
-            size="small"
-          >
-            Add Clothes
-          </Button>
-          <SignOutButton />
-        </Stack>
+        <Weather />
+        <div style={{ height: 400, width: "100%" }} paddingBottom={2}>
+          <DataGrid rows={clothes} columns={columns} />
+        </div>
+        <Statistics clothes={clothes} />
       </Stack>
-      <Typography variant="body1" align="left" paddingBottom={2}>
-        Hey there! Welcome to your virtual closet !
-      </Typography>
-      <Weather />
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid rows={clothes} columns={columns} />
-      </div>
+
       {/* Image modal */}
       <Dialog open={isImageOpen} onClose={handleCloseImage}>
         <DialogTitle>Enlarged Image</DialogTitle>
