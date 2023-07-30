@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Paper, Typography, ButtonGroup, Button } from "@mui/material";
-import { PieChart, Pie, Cell } from "recharts";
+import { Paper, Typography, ButtonGroup, Button, Stack } from "@mui/material";
+import { PieChart, Pie, Cell, Label, Legend } from "recharts";
 
 const Statistics = ({ clothes }) => {
   const [chartType, setChartType] = useState("company");
@@ -32,11 +32,11 @@ const Statistics = ({ clothes }) => {
       data.push(
         ...Object.entries(clothesByType).map(([label, value]) => ({
           name: label,
-          value,
+          value: value,
         }))
       );
     }
-
+    console.log(data);
     return data;
   };
 
@@ -45,21 +45,27 @@ const Statistics = ({ clothes }) => {
   return (
     <Paper sx={{ p: 2 }}>
       <Typography variant="h5" align="center" gutterBottom>
-        Your Own Clothesionary
+        Let's take a look at your stats!
       </Typography>
-      <ButtonGroup variant="contained" color="primary" size="small">
-        <Button onClick={() => setChartType("company")}>By Company</Button>
-        <Button onClick={() => setChartType("type")}>By Type</Button>
+      <ButtonGroup
+        variant="contained"
+        color="primary"
+        size="small"
+        sx={{ justifyContent: "center", mb: 2 }}
+      >
+        <Stack direction="row" spacing={1}>
+          <Button onClick={() => setChartType("company")}>By Company</Button>
+          <Button onClick={() => setChartType("type")}>By Type</Button>
+        </Stack>
       </ButtonGroup>
-      <div style={{ marginTop: "1em" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <PieChart width={400} height={400}>
           <Pie
             data={getData()}
             dataKey="value"
-            nameKey="name"
             cx="50%"
             cy="50%"
-            outerRadius={80}
+            outerRadius={160}
             fill="#8884d8"
             label
           >
@@ -70,6 +76,7 @@ const Statistics = ({ clothes }) => {
               />
             ))}
           </Pie>
+          <Legend verticalAlign="top" height={36} />
         </PieChart>
       </div>
     </Paper>

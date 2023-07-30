@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import SignOutButton from "../components/SignOutButton";
+import { Header } from "../components/Header";
 
 function AddClothes() {
   const [description, setDescription] = useState("");
@@ -86,16 +87,16 @@ function AddClothes() {
 
   return (
     <Container>
+      <Header />
       <Stack
         display="flex"
         justifyContent="space-between"
         alignItems="center"
         flexDirection={"row"}
       >
-        <Typography variant="h2" align="center" gutterBottom>
+        <Typography variant="h4" align="center" gutterBottom>
           Bought a new cloth? add it here!
         </Typography>
-        <SignOutButton />
       </Stack>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>

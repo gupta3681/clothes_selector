@@ -47,7 +47,7 @@ const Weather = () => {
         We hope you are having a great time in {weatherData.name},{" "}
         {weatherData.sys.country}. The current temperature is{" "}
         {weatherData.main.temp} °C and we would adivise you to be prepared for{" "}
-        {weatherData.weather[0].description} ! when you head out today. Have a
+        {weatherData.weather[0].description}, when you head out today. Have a
         wonderful rest of your day and stay safe!
       </Typography>
     </div>
